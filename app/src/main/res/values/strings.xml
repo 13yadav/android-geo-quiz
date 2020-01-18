@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">GeoQuiz</string>
+    <string name="btn_false">False</string>
+    <string name="btn_true">True</string>
+    <string name="correct_toast">Correct!</string>
+    <string name="incorrect_toast">Incorrect!</string>
+    <string name="btn_next">Next</string>
+    <string name="ques_india">Delhi is capital of India?</string>
+    <string name="ques_programming">Java is not a Programming Language?</string>
+    <string name="ques_richer">Bill Gates is richest in world?</string>
+    <string name="ques_web">Google is most popular social media on web?</string>
+    <string name="ques_river">Ganga is the most sacred river in India?</string>
+    <string name="btn_prev">Previous</string>
+</resources>
