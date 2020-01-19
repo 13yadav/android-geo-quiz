@@ -19,16 +19,14 @@ public class MainActivity extends AppCompatActivity {
     ImageButton mBtnPrev;
     TextView mQuesTV;
     private static final String TAG = "QuizActivity";
-
-
     private static final String KEY_INDEX = "index";
 
     private Question[] quesBank = new Question[]{
-            new Question(R.string.ques_india,true),
-            new Question(R.string.ques_programming,false),
-            new Question(R.string.ques_richer,true),
-            new Question(R.string.ques_river,true),
-            new Question(R.string.ques_web,false)
+            new Question(R.string.ques_india,true, false),
+            new Question(R.string.ques_programming,false, false),
+            new Question(R.string.ques_richer,true, false),
+            new Question(R.string.ques_river,true, false),
+            new Question(R.string.ques_web,false, false)
     };
     private int currentIndex = 0;
 
@@ -48,7 +46,11 @@ public class MainActivity extends AppCompatActivity {
         mBtnTrue.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mBtnTrue.setEnabled(true);
+                mBtnFalse.setEnabled(true);
+                quesBank[currentIndex].setAnswered(true);
                 checkAnswer(true);
+                myQuesChangerMethod();
             }
         });
 
@@ -56,7 +58,11 @@ public class MainActivity extends AppCompatActivity {
         mBtnFalse.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mBtnTrue.setEnabled(true);
+                mBtnFalse.setEnabled(true);
+                quesBank[currentIndex].setAnswered(true);
                 checkAnswer(false);
+                myQuesChangerMethod();
             }
         });
 
@@ -64,8 +70,7 @@ public class MainActivity extends AppCompatActivity {
         mBtnNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                currentIndex = (currentIndex + 1) % quesBank.length;
-                updateQuestion();
+                myQuesChangerMethod();
             }
         });
 
@@ -73,10 +78,8 @@ public class MainActivity extends AppCompatActivity {
         mBtnPrev.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (currentIndex > 0)
-                    currentIndex = (currentIndex - 1) % quesBank.length;
-                else
-                    currentIndex = 0;
+                if (currentIndex > 0) currentIndex = (currentIndex - 1) % quesBank.length;
+                isAnswered(currentIndex);
                 updateQuestion();
             }
         });
@@ -134,5 +137,21 @@ public class MainActivity extends AppCompatActivity {
             messageResId = R.string.incorrect_toast;
 
         Toast.makeText(this, messageResId, Toast.LENGTH_SHORT).show();
+    }
+
+    private void isAnswered(int index){
+        if (quesBank[index].isAnswered()){
+            mBtnTrue.setEnabled(false);
+            mBtnFalse.setEnabled(false);
+        }else {
+            mBtnTrue.setEnabled(true);
+            mBtnFalse.setEnabled(true);
+        }
+    }
+
+    private void myQuesChangerMethod(){
+        currentIndex = (currentIndex + 1) % quesBank.length;
+        isAnswered(currentIndex);
+        updateQuestion();
     }
 }
