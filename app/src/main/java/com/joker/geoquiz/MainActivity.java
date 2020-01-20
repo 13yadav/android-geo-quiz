@@ -2,6 +2,7 @@ package com.joker.geoquiz;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -18,6 +19,8 @@ public class MainActivity extends AppCompatActivity {
     ImageButton mBtnNext;
     ImageButton mBtnPrev;
     TextView mQuesTV;
+    Button btnCheat;
+
     private static final String TAG = "QuizActivity";
     private static final String KEY_INDEX = "index";
 
@@ -81,6 +84,16 @@ public class MainActivity extends AppCompatActivity {
                 if (currentIndex > 0) currentIndex = (currentIndex - 1) % quesBank.length;
                 isAnswered(currentIndex);
                 updateQuestion();
+            }
+        });
+
+        btnCheat = findViewById(R.id.btn_cheat);
+        btnCheat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                boolean answerIsTrue = quesBank[currentIndex].isAnswerTrue();
+                Intent intent = CheatActivity.newIntent(MainActivity.this, answerIsTrue);
+                startActivity(intent);
             }
         });
     }

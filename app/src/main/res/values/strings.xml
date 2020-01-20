@@ -11,4 +11,8 @@
     <string name="ques_web">Google is most popular social media on web?</string>
     <string name="ques_river">Ganga is the most sacred river in India?</string>
     <string name="btn_prev">Previous</string>
+    <string name="btn_cheat">Cheat!</string>
+    <string name="warning_text">Are you sure you want to do this?</string>
+    <string name="btn_show_answer">Show Answer</string>
+    <string name="judgement_toast">Cheating is wrong!!!</string>
 </resources>
