@@ -2,10 +2,14 @@ package com.joker.geoquiz;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewAnimationUtils;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -17,6 +21,7 @@ public class CheatActivity extends AppCompatActivity {
     private boolean answer;
     Button btnShowAnswer;
     TextView answerTV;
+    TextView tvBuildNo;
 
     public static Intent newIntent(Context packageContext, boolean isAnswerTrue){
         Intent intent = new Intent(packageContext, CheatActivity.class);
@@ -44,8 +49,31 @@ public class CheatActivity extends AppCompatActivity {
                 else answerTV.setText(R.string.btn_false);
 
                 setAnswerShownResult(true);
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
+                    int cx = btnShowAnswer.getWidth() / 2;
+                    int cy = btnShowAnswer.getHeight() / 2;
+                    float radius = btnShowAnswer.getWidth();
+                    Animator anim = ViewAnimationUtils.createCircularReveal(btnShowAnswer,cx,cy,radius,0);
+                    anim.addListener(new AnimatorListenerAdapter() {
+                        @Override
+                        public void onAnimationEnd(Animator animation) {
+                            super.onAnimationEnd(animation);
+                            btnShowAnswer.setVisibility(View.INVISIBLE);
+                        }
+                    });
+                    anim.start();
+                } else{
+                    btnShowAnswer.setVisibility(View.INVISIBLE);
+                }
             }
         });
+
+        tvBuildNo = findViewById(R.id.tv_build_no);
+        int version = Build.VERSION.SDK_INT;
+        String api = "API Level " + version;
+        tvBuildNo.setText(api);
+
     }
 
     public void setAnswerShownResult(boolean isShown){

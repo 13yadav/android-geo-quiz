@@ -22,11 +22,13 @@ public class QuizActivity extends AppCompatActivity {
     ImageButton mBtnPrev;
     TextView mQuesTV;
     Button btnCheat;
+    TextView tvCheatAvailable;
 
     private static final String TAG = "QuizActivity";
     private static final String KEY_INDEX = "index";
     private static final int REQUEST_CODE_CHEAT = 0;
     private boolean isCheater;
+    private int tokens;
 
 
     private Question[] quesBank = new Question[]{
@@ -92,12 +94,22 @@ public class QuizActivity extends AppCompatActivity {
         });
 
         btnCheat = findViewById(R.id.btn_cheat);
+        tvCheatAvailable = findViewById(R.id.cheats_available_tv);
+        tokens = 3;
         btnCheat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                boolean answerIsTrue = quesBank[currentIndex].isAnswerTrue();
-                Intent intent = CheatActivity.newIntent(QuizActivity.this, answerIsTrue);
-                startActivityForResult(intent, REQUEST_CODE_CHEAT);
+                if(tokens <= 3 && tokens != 0) {
+                    tokens -= 1;
+                    boolean answerIsTrue = quesBank[currentIndex].isAnswerTrue();
+                    Intent intent = CheatActivity.newIntent(QuizActivity.this, answerIsTrue);
+                    startActivityForResult(intent, REQUEST_CODE_CHEAT);
+                    String noOfCheats = "No of available cheats: " + tokens;
+                    tvCheatAvailable.setText(noOfCheats);
+                }else{
+                    btnCheat.setEnabled(false);
+                    tvCheatAvailable.setText(R.string.out_of_cheat);
+                }
             }
         });
     }
@@ -111,10 +123,12 @@ public class QuizActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        if (resultCode != Activity.RESULT_OK){
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode != Activity.RESULT_OK) {
             return;
         }
-        if (requestCode == REQUEST_CODE_CHEAT){
+        if (requestCode == REQUEST_CODE_CHEAT) {
             if (data == null)
                 return;
             isCheater = CheatActivity.wasAnswerShown(data);

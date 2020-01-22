@@ -15,4 +15,5 @@
     <string name="warning_text">Are you sure you want to do this?</string>
     <string name="btn_show_answer">Show Answer</string>
     <string name="judgement_toast">Cheating is wrong!!!</string>
+    <string name="out_of_cheat">Out of Cheats!!!</string>
 </resources>
